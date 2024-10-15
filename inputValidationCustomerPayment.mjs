@@ -11,13 +11,13 @@ const inputValidationCustomerPayment = (req, res, next) => {
     const fullNamePattern = /^[A-Za-z\s'-]+$/;
     const cityAndCountryPattern = /^[A-Za-z\s'-.]+$/; //Allows for only Capitals and lower case letters , apostrophes , hyphen and full stops
     const addressPattern = /^\d+\s[A-Za-z0-9\s.,'-]+$/; //Allows for numbers , capitals and lower case letters and full stops , commas and apostrophes and hyphens
-    const swiftCodePattern = "^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$"; 
+    const swiftCodePattern = /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/; 
     //Swift composes of the following pattern needs:
     //[A-Z]{4}: Matches the first four characters, which must be uppercase letters representing the bank code.
     //[A-Z]{2}: Matches the next two characters, which must be uppercase letters representing the country code.
     //([A-Z0-9]{2})?: Optionally matches two characters that can be uppercase letters or digits (representing the location code).
     //([A-Z0-9]{3})?$: Optionally matches three characters that can be uppercase letters or digits (representing the branch code).
-    const internationalBankNoPattern = "^[A-Z]{2}\\d{2}[A-Z0-9]{1,30}$" //First 2 letters must be upper or lower case letters and then numbers afterwards to a max of 30 characters
+    const internationalBankNoPattern = /^[A-Za-z]{2}\d{2}[A-Z0-9]{1,30}$/; //First 2 letters must be upper or lower case letters and then numbers afterwards to a max of 30 characters
     const currencyAmountPattern = /^\d{1,3}(,\d{3})*(\.\d{2}|\d{2},\d{2})?$/; //Allows for formats of numbers such as 1,000.00 or 10000.00 or 100,00
     const currencyAbbreviationPattern = /^[A-Z]{3}$/; //Allows for formats of 3 letter currency abbreviations such as ZAR or USD with all caps only
     const paymentReferencePattern = /^[A-Za-z0-9\s-]{1,20}$/; //Allows for formats of numbers , captial and lower case letters and dashes
@@ -73,9 +73,9 @@ const inputValidationCustomerPayment = (req, res, next) => {
     const sanitizedPostalCode = cp_recipientPostalCode.replace(/[^0-9]/g, '');
     const sanitizedCountry = validator.escape(cp_recipientCountry);
     const sanitizedSwiftBankName = validator.escape(cp_swiftBankName);
-    const sanitizedSwiftCode = cp_swiftCode.replace(/[^0-9]/g, '');
-    const sanitizedswiftIntBankNumber = cp_swiftIntBankNumber.replace(/[^0-9]/g, '');
-    const sanitizedAmount = cp_amount.replace(/[^0-9]/g, '');
+    const sanitizedSwiftCode = cp_swiftCode.replace(/[^A-Z0-9]/g, '');
+    const sanitizedswiftIntBankNumber = cp_swiftIntBankNumber.replace(/[^A-Z0-9]/g, ''); // Remove non-alphanumeric characters (including spaces)
+    const sanitizedAmount = cp_amount.replace(/[^0-9.,]/g, '');
     const sanitizedCurrency = validator.escape(cp_currency);
     const sanitizedPaymentReference = validator.escape(cp_payReference);
 

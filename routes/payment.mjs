@@ -1,7 +1,5 @@
 import express from "express";
 import db from "../db/conn.mjs";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import ExpressBrute from "express-brute";
 import inputValidationCustomerPayment from "../inputValidationCustomerPayment.mjs";
 import checkauth from "../check-auth.mjs";
@@ -29,7 +27,8 @@ router.post("/MakePayment", checkauth ,inputValidationCustomerPayment, async (re
 
     let collection = await db.collection("customerPaymentInformation"); //Name of Collection for customer payment information
     let result = await collection.insertOne(newDocument);
-    res.send(result).status(204).json({ message: "Successful Insert" });
-});
+    res.send(result).status(204);
+}
+);
 
 export default router;
