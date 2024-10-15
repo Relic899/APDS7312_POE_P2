@@ -45,6 +45,7 @@ router.post("/login", bruteforce.prevent, inputValidationCustomerAccount(['usern
         console.log("accountnumber:" + accountNum);
         console.log("");
         if (!user || !accountNum) {
+            console.log("Authentication failed : You are not registered in the system");
             return res.status(401).json({ message: "Authentication failed : You are not registered in the system" });
         }
 
@@ -53,6 +54,7 @@ router.post("/login", bruteforce.prevent, inputValidationCustomerAccount(['usern
         //Compare the Account number from the database and the account number entered
         const accountNumberMatch = accountNum.c_accountNumber === user.c_accountNumber;
         if (!passwordMatch || !accountNumberMatch) {
+            console.log("Authentication failed : (Comparison between password and account number does not match data on record)");
             return res.status(401).json({ message: "Authentication failed : (Comparison between password and account number does not match data on record)" });
         } else {
             // Authentication successful

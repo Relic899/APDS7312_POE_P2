@@ -4,13 +4,14 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ExpressBrute from "express-brute";
 import inputValidationCustomerPayment from "../inputValidationCustomerPayment.mjs";
+import checkauth from "../check-auth.mjs";
 
 const router = express.Router();
 
 var store = new ExpressBrute.MemoryStore(); 
 
 //MakePayment
-router.post("/MakePayment", inputValidationCustomerPayment, async (req, res) => {
+router.post("/MakePayment", checkauth ,inputValidationCustomerPayment, async (req, res) => {
     let newDocument = {
         //Customer specific Payment information needed to submit a payment request
         cp_recipientFullName: req.body.cp_recipientFullName,
