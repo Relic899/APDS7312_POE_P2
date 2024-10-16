@@ -30,9 +30,9 @@ jobs:
         steps:
             - run: find .
             - run: |
-    echo "Project Key: $SONAR_PROJECT_KEY"
-    echo "Organization: $SONAR_ORG"
-    echo "Token: $SONAR_TOKEN"
+                echo "Project Key: $SONAR_PROJECT_KEY"
+                echo "Organization: $SONAR_ORG"
+                echo "Token: $SONAR_TOKEN"
 
             - attach_workspace:
                 at: ~/workspace
