@@ -31,7 +31,6 @@ jobs:
             - run: find .
             - attach_workspace:
                 at: ~/workspace
-            - run: sonar-scanner --version  # Check if sonar-scanner is installed
             - run: |         
                 echo "Project Key: $SONAR_PROJECT_KEY"
                 echo "Organization: $SONAR_ORG"
