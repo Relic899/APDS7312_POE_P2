@@ -23,11 +23,15 @@ jobs:
           command: "echo Hello, World!"
           
   sonarqube:
+        type: build
         working_directory: ~/build
         docker:
           - image: sonarsource/sonar-scanner-cli 
         resource_class: small
         steps:
+            - run: apk add --no-cache findutils  # For Alpine-based images
+            # or for Debian-based images:
+            - run: apt-get update && apt-get install -y findutils
             - run: find .
             - attach_workspace:
                 at: ~/workspace
