@@ -18,7 +18,7 @@ const inputValidationCustomerPayment = (req, res, next) => {
     //([A-Z0-9]{2})?: Optionally matches two characters that can be uppercase letters or digits (representing the location code).
     //([A-Z0-9]{3})?$: Optionally matches three characters that can be uppercase letters or digits (representing the branch code).
     const internationalBankNoPattern = /^[A-Za-z]{2}\d{2}[A-Z0-9]{1,30}$/; //First 2 letters must be upper or lower case letters and then numbers afterwards to a max of 30 characters
-    const currencyAmountPattern = /^\d{1,3}(,\d{3})*(\.\d{2}|\d{2},\d{2})?$/; //Allows for formats of numbers such as 1,000.00 or 10000.00 or 100,00
+    const currencyAmountPattern = /^[1-9]\d{0,2}(,\d{3})*(\.\d{2})?$/; //Allows for formats of numbers such as 1,000.00 or 10000.00 or 100,00
     const currencyAbbreviationPattern = /^[A-Z]{3}$/; //Allows for formats of 3 letter currency abbreviations such as ZAR or USD with all caps only
     const paymentReferencePattern = /^[A-Za-z0-9\s-]{1,20}$/; //Allows for formats of numbers , captial and lower case letters and dashes
 
@@ -129,14 +129,17 @@ const inputValidationCustomerPayment = (req, res, next) => {
         // Validate 'Swift Bank/BIC Code'
         if (!swiftCodePattern.test(sanitizedSwiftCode)) {
             return res.status(400).json({ message: "Invalid Swift Code Format: The first four characters, which must be uppercase letters representing the bank code."
-               + " \n The next two characters, which must be uppercase letters representing the country code. "
-               + " \n Optionally matches two characters that can be uppercase letters or digits (representing the location code). "
-               + " \n Optionally matches three characters that can be uppercase letters or digits (representing the branch code)." });
+               + "\n The next two characters, which must be uppercase letters representing the country code. "
+               + "\n Optionally matches two characters that can be uppercase letters or digits (representing the location code). "
+               + "\n Optionally matches three characters that can be uppercase letters or digits (representing the branch code)." 
+               + "\n Example: AAAA-BB-CC-123"});
+
         }
 
          // Validate 'IBAN or International Bank Account Number'
         if (!internationalBankNoPattern.test(sanitizedswiftIntBankNumber)) {
-            return res.status(400).json({ message: "Invalid Swift International Bank Account Number Format: First 2 letters must be upper or lower case letters and then numbers afterwards to a max of 30 characters" });
+            return res.status(400).json({ message: "Invalid Swift International Bank Account Number Format: First 2 letters must be upper or lower case letters and then numbers afterwards to a max of 30 characters"  
+                + "\n Example: FR76XYZ123456"});
         }
 
         // Validate 'Currency'

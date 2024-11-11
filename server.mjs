@@ -2,9 +2,11 @@ import https from "https";
 import fs from "fs";
 import users from "./routes/user.mjs";
 import payments from "./routes/payment.mjs"
+import staff from "./routes/staff.mjs"
 import express from "express";
 import cors from "cors";
 //Import and install helmet package to enforce HTTP Strict Transport Security (HSTS)
+//Installation : npm install express-rate-limit
 import helmet from "helmet";
 //Import and install rate limit package to protect against denial of service attacks
 //Installation : npm install express-rate-limit
@@ -103,6 +105,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/user", users);
 app.use("/payment",payments);
+app.use("/staff",staff);
 // Start HTTPS server
 let httpsServer = https.createServer(options, app);
 httpsServer.listen(PORT, () => {

@@ -81,7 +81,7 @@ const inputValidationCustomerAccount = (fieldsToValidate) => {
 
         // Validate 'account number'
         if (fieldsToValidate.includes('c_accountNumber') && !accountNumberPattern.test(c_accountNumber)) {
-                return res.status(400).json({ message: "Invalid Bank account number , bank account number must be only 10 numbers in length and only numbers can be used. " });
+            return res.status(400).json({ message: "Invalid Bank account number , bank account number must be only 10 numbers in length and only numbers can be used. " });
     }   
         next();
     }
